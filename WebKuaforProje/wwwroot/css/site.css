@@ -1,0 +1,84 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.centered-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: -100px;
+}
+
+.default-button {
+    margin: 125px;
+    width: 150px;
+    height: 50px;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .default-button {
+        width: 120px;
+        height: 40px;
+        font-size: 14px;
+    }
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Sayfa yüksekliðinin tamamýný kapsar */
+}
+
+form {
+    padding: 20px; /* Ýçerik boþluðu */
+    border-radius: 10px; /* Köþeleri yuvarlama */
+    background-color: #ff6a00;
+}
+
+.form-group {
+    margin-bottom: 15px; /* Form öðeleri arasýnda boþluk */
+    display: flex; /* Flexbox kullanarak label ve input hizalamasý */
+    flex-direction: column; /* Label ve input üst üste gelsin */
+}
+
+label {
+    margin-bottom: 5px; /* Label ile input arasýnda boþluk */
+    font-weight: bold; /* Kalýn yazý tipi */
+    text-align: center; /* Label'larý sola hizala */
+}
+
+input {
+    padding: 10px; /* Input içeriði boþluk */
+    border-radius: 5px; /* Köþeleri yuvarlama */
+    font-size: 14px; /* Yazý tipi boyutu */
+}
+
+button {
+    padding: 10px 15px; /* Buton boyutlarý */
+    background-color: #ff0000; /* Mavi renk */
+    color: black; /* Yazý rengi beyaz */
+    border-radius: 5px; /* Köþeleri yuvarlama */
+    cursor: pointer; /* Fare imleci butonda deðiþir */
+}
+
+    button:hover {
+        background-color: darkred; /* Hover efekti için daha koyu mavi */
+    }
