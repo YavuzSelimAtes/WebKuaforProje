@@ -5,11 +5,11 @@ namespace WebKuaforProje.Controllers
 {
     public class AnaSayfaController : Controller
     {
-        private readonly VeriTabani _context;
+        private readonly VeriTabani veriTabani;
 
-        public AnaSayfaController(VeriTabani context)
+        public AnaSayfaController(VeriTabani veri_Tabani)
         {
-            _context = context;
+            veriTabani = veri_Tabani;
         }
 
         // GET: GirisEkrani
@@ -24,17 +24,20 @@ namespace WebKuaforProje.Controllers
         public IActionResult GirisEkrani(string kullaniciAdi, string sifre)
         {
             // Kullanıcıyı veritabanında kontrol et
-            var kullanici = _context.Kullanicilar
+            var kullanici = veriTabani.Kullanicilar
                 .FirstOrDefault(k => k.KullaniciAdi == kullaniciAdi && k.Sifre == sifre);
 
             if (kullanici != null)
             {
-                // Giriş başarılı, yönlendirme yap
-                return RedirectToAction("Index", "AnaSayfa");
+                if (kullanici.Rol == "admin")
+                {
+                    return RedirectToAction("YeniKullanici", "Admin");
+                }
+                else
+                    return RedirectToAction("GirisEkrani", "AnaSayfa");
             }
             else
             {
-                // Hata mesajını view'a gönder
                 ViewBag.Hata = "Kullanıcı adı veya şifre hatalı!";
                 return View();
             }

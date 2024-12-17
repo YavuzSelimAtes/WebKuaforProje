@@ -1,0 +1,38 @@
+﻿@model IEnumerable<WebKuaforProje.Data.Kullanici>
+
+<h2>Kullanıcı Listesi</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Telefon No</th>
+            <th>Kullanıcı Adı</th>
+            <th>Şifre</th>
+            <th>Rol</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kullanici in Model)
+        {
+            <tr>
+                <td>@kullanici.Id</td>
+                <td>@kullanici.Ad</td>
+                <td>@kullanici.Soyad</td>
+                <td>@kullanici.TelefonNo</td>
+                <td>@kullanici.KullaniciAdi</td>
+                <td>@kullanici.Sifre</td>
+                <td>@kullanici.Rol</td>
+                <td>
+                    <form asp-action="KullaniciKaldir" asp-controller="Admin" method="post" onsubmit="return confirm('Bu kullanıcıyı kaldırmak istediğinize emin misiniz?');">
+                        <input type="hidden" name="id" value="@kullanici.Id" />
+                        <button type="submit" class="btn btn-danger">Kaldir</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

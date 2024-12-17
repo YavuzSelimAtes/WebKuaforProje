@@ -1,0 +1,31 @@
+﻿@model WebKuaforProje.Data.Kullanici
+
+<h2>Yeni Kullanıcı Ekle</h2>
+
+<form asp-action="YeniKullanici" method="post" class="form-container">
+    <div class="form-group">
+        <label asp-for="Ad">Ad</label>
+        <input asp-for="Ad" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="Soyad">Soyad</label>
+        <input asp-for="Soyad" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="TelefonNo">Telefon No</label>
+        <input asp-for="TelefonNo" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="KullaniciAdi">Kullanıcı Adı</label>
+        <input asp-for="KullaniciAdi" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="Sifre">Şifre</label>
+        <input asp-for="Sifre" type="password" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="Rol">Rol</label>
+        <input asp-for="Rol" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Ekle</button>
+</form>

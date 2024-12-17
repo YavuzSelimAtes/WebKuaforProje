@@ -12,6 +12,12 @@ namespace WebKuaforProje.Data
         // Kullanıcı tablosunu temsil eden DbSet
         public DbSet<Kullanici> Kullanicilar { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=WebProje;Username=postgres;Password=Ystns.r.a.a.6");
+        }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Tablonun adını ve sütun adlarını eşleştiriyoruz
@@ -31,6 +37,9 @@ namespace WebKuaforProje.Data
         public int Id { get; set; }             
         public string KullaniciAdi { get; set; } 
         public string Sifre { get; set; }    
-        public string Rol { get; set; }        
+        public string Rol { get; set; }
+        public string Ad { get; set; } 
+        public string Soyad { get; set; } 
+        public string TelefonNo { get; set; } 
     }
 }
