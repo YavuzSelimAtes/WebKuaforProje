@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using WebKuaforProje.Data;
 
 namespace WebKuaforProje.Controllers
@@ -26,7 +27,7 @@ namespace WebKuaforProje.Controllers
             {
                 veriTabani.Kullanicilar.Add(kullanici);
                 veriTabani.SaveChanges();
-                return RedirectToAction("KullaniciListesi","Admin");
+                return RedirectToAction("KullaniciListesi");
             }
             return View(kullanici);
         }
@@ -40,8 +41,46 @@ namespace WebKuaforProje.Controllers
                 veriTabani.Kullanicilar.Remove(kullanici);
                 veriTabani.SaveChanges();
             }
-            return RedirectToAction("KullaniciListesi", "Admin");
+            return RedirectToAction("KullaniciListesi");
         }
+
+        [HttpPost]
+        public IActionResult KullaniciGuncelle(int Id, string TelefonNo)
+        {
+            // Formdan gelen değerleri kontrol et
+            if (string.IsNullOrWhiteSpace(TelefonNo))
+            {
+                TempData["Mesaj"] = "Telefon numarası boş bırakılamaz!";
+                return RedirectToAction("KullaniciListesi");
+            }
+
+            // Veritabanında kullanıcıyı bul
+            var kullanici = veriTabani.Kullanicilar.FirstOrDefault(k => k.Id == Id);
+
+            if (kullanici == null)
+            {
+                TempData["Mesaj"] = "Kullanıcı bulunamadı!";
+                return RedirectToAction("KullaniciListesi");
+            }
+
+            // Telefon numarasını güncelle
+            kullanici.TelefonNo = TelefonNo;
+
+            // Değişiklikleri kaydet
+            try
+            {
+                veriTabani.SaveChanges();
+                TempData["Mesaj"] = "Telefon numarası başarıyla güncellendi!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Mesaj"] = $"Bir hata oluştu: {ex.Message}";
+            }
+
+            return RedirectToAction("KullaniciListesi");
+        }
+
+
 
         [HttpGet]
         public IActionResult KullaniciListesi()

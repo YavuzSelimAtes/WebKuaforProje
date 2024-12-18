@@ -9,13 +9,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giriş Yap Butonu</title>
+    <title>Giriş Yap ve Kaydol</title>
     <style>
-        /* Sağ üst köşeye sabitleme */
+        /* Kapsayıcı */
         .btn-container {
-            position: fixed; /* Sayfanın sağ üst köşesine sabitler */
-            top: 10px; /* Üstten 10 piksel boşluk */
-            right: 10px; /* Sağdan 10 piksel boşluk */
+            position: fixed; /* Sağ üst köşeye sabitler */
+            top: 10px; /* Üstten boşluk */
+            right: 10px; /* Sağdan boşluk */
+            display: flex; /* Butonları yan yana koyar */
+            gap: 10px; /* Butonlar arası boşluk */
             z-index: 1000; /* Üstte görünmesini sağlar */
         }
 
@@ -24,7 +26,7 @@
             display: none; /* Başlangıçta gizli */
             position: absolute; /* Butona göre konumlanır */
             top: 100%; /* Butonun hemen altından başlar */
-            right: 0; /* Sağ kenara hizalanır */
+            right: 0; /* Sağ kenara hizalar */
             width: 250px; /* Form genişliği */
             background-color: #fff;
             border: 1px solid #ccc;
@@ -33,34 +35,72 @@
             padding: 10px;
         }
 
-        /* Dropdown Form Hover ile Gösterme */
-        .btn-container:hover .dropdown-form {
-            display: block; /* Hover olunca görünür */
+        /* Hover ile formu göster */
+        .btn-wrapper:hover .dropdown-form {
+            display: block; /* Hover olunca formu göster */
+        }
+
+        .btn-wrapper {
+            position: relative; /* Her butonun kendi referans noktası var */
         }
     </style>
 </head>
 <body>
-    <!-- Sağ Üst Köşedeki Buton ve Form -->
+    <!-- Sağ Üst Köşedeki Butonlar -->
     <div class="btn-container">
-        <!-- Giriş Yap Butonu -->
-        <button type="button" class="btn btn-primary">
-            Giriş Yap
-        </button>
+        <!-- Giriş Yap -->
+        <div class="btn-wrapper">
+            <button type="button" class="btn btn-primary">
+                Giriş Yap
+            </button>
+            <div class="dropdown-form">
+                <h5 class="text-center">Kullanıcı Girişi</h5>
+                <form action="#" method="post">
+                    <div class="mb-3">
+                        <label for="girisKullaniciAdi">Kullanıcı Adı</label>
+                        <input type="text" name="kullaniciAdi" class="form-control" id="girisKullaniciAdi" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="girisSifre">Şifre</label>
+                        <input type="password" name="sifre" class="form-control" id="girisSifre" required />
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Giriş Yap</button>
+                </form>
+            </div>
+        </div>
 
-        <!-- Altında Açılacak Form -->
-        <div class="dropdown-form">
-            <h5 class="text-center">Kullanıcı Girişi</h5>
-            <form action="#" method="post">
-                <div class="mb-3">
-                    <label for="kullaniciAdi">Kullanıcı Adı</label>
-                    <input type="text" name="kullaniciAdi" class="form-control" id="kullaniciAdi" required />
-                </div>
-                <div class="mb-3">
-                    <label for="sifre">Şifre</label>
-                    <input type="password" name="sifre" class="form-control" id="sifre" required />
-                </div>
-                <button type="submit" class="btn btn-success w-100">Giriş Yap</button>
-            </form>
+        <!-- Kaydol -->
+        <div class="btn-wrapper">
+            <button type="button" class="btn btn-secondary">
+                Kaydol
+            </button>
+            <div class="dropdown-form">
+                <h5 class="text-center">Kayıt Ol</h5>
+                <form asp-action="Kaydol" asp-controller="AnaSayfa" method="post">
+                    <div class="mb-3">
+                        <label for="kayitAd">Ad</label>
+                        <input type="text" name="ad" class="form-control" id="kayitAd" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="kayitSoyad">Soyad</label>
+                        <input type="text" name="soyad" class="form-control" id="kayitSoyad" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="kayitTel">Telefon</label>
+                        <input type="tel" name="tel" class="form-control" id="kayitTel" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="kayitKullaniciAdi">Kullanıcı Adı</label>
+                        <input type="text" name="kullaniciAdi" class="form-control" id="kayitKullaniciAdi" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="kayitSifre">Şifre</label>
+                        <input type="password" name="sifre" class="form-control" id="kayitSifre" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Kaydol</button>
+                </form>
+
+            </div>
         </div>
     </div>
 </body>

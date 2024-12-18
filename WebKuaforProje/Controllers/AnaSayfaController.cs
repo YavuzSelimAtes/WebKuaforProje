@@ -42,5 +42,24 @@ namespace WebKuaforProje.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        public IActionResult Kaydol(string ad, string soyad, string tel, string kullaniciAdi, string sifre)
+        {
+            var yeniMusteri = new Kullanici
+            {
+                Ad = ad,
+                Soyad = soyad,
+                TelefonNo = tel,
+                KullaniciAdi = kullaniciAdi,
+                Sifre = sifre,
+                Rol = "Müşteri"
+            };
+
+            veriTabani.Kullanicilar.Add(yeniMusteri);
+            veriTabani.SaveChanges();
+
+            return RedirectToAction("GirisEkrani"); // Kaydolduktan sonra anasayfaya yönlendir
+        }
     }
 }
