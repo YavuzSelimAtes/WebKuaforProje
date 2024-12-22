@@ -4,7 +4,7 @@ namespace WebKuaforProje.Controllers
 {
     public class MusteriController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Randevu()
         {
             return View();
         }
