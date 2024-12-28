@@ -1,138 +1,24 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dinamik Takvim</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
+    <link rel="stylesheet" href="site.css">
 
-        .calendar {
-            width: 90%;
-            margin: 0 auto;
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-            .calendar-header h1 {
-                font-size: 24px;
-                margin: 0 15px;
-            }
-
-            .calendar-header button {
-                background-color: #007bff;
-                color: white;
-                border: none;
-                padding: 10px;
-                cursor: pointer;
-                border-radius: 5px;
-            }
-
-                .calendar-header button:hover {
-                    background-color: #0056b3;
-                }
-
-        /* Hafta Günleri */
-        .weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-            .weekdays div {
-                padding: 10px;
-            }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-        }
-
-        .day-box {
-            padding: 10px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-            .day-box:hover {
-                background-color: #e0e0e0;
-            }
-
-        .past {
-            background-color: #d3d3d3;
-            color: #888;
-        }
-
-        /* Yıl Seçme Scroll Menü */
-        .year-selector {
-            display: none;
-            position: absolute;
-            width: 100px;
-            height: 150px;
-            overflow-y: auto;
-            background-color: white;
-            border: 1px solid #ccc;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-        }
-
-            .year-selector div {
-                padding: 5px;
-                cursor: pointer;
-            }
-
-                .year-selector div:hover {
-                    background-color: #007bff;
-                    color: white;
-                }
-
-        /* Pop-up */
-        .popup {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: white;
-            border: 1px solid #ccc;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-            .popup.active {
-                display: block;
-            }
-    </style>
 </head>
 <body>
-    <div class="calendar">
-        <!-- Takvim Başlığı -->
-        <div class="calendar-header">
-            <button id="prevMonth">&lt;</button>
-            <h1 id="currentMonth">Aralık</h1>
-            <h1 id="currentYear" style="cursor: pointer;">2024</h1>
-            <button id="nextMonth">&gt;</button>
+    <div class="takvim">
+        <div class="takvim-baslik">
+            <button id="oncekiAy">&lt;</button>
+            <h1 id="suankiAy">Aralık</h1>
+            <h1 id="suankiYil">2024</h1>
+            <button id="sonrakiAy">&gt;</button>
         </div>
 
-        <!-- Yıl Seçme Scroll -->
-        <div id="yearSelector" class="year-selector"></div>
+        <div id="yilSecici" class="yil-secici"></div>
 
-        <!-- Hafta Günleri -->
-        <div class="weekdays">
+        <div class="hafta-gunleri">
             <div>Pazartesi</div>
             <div>Salı</div>
             <div>Çarşamba</div>
@@ -142,114 +28,115 @@
             <div>Pazar</div>
         </div>
 
-        <!-- Günlerin Listesi -->
-        <div class="calendar-grid" id="calendarGrid"></div>
+        <div class="takvim-gunleri" id="takvimGunleri"></div>
     </div>
 
-    <!-- Pop-up -->
-    <div id="popup" class="popup">
-        <h2 id="popupTitle">Seçilen Gün</h2>
-        <p id="popupContent">Buraya detaylar eklenebilir.</p>
-        <button onclick="closePopup()">Kapat</button>
+    <div id="acilirPencere" class="acilir-pencere">
+        <h2 id="pencereBaslik">Seçilen Gün</h2>
+        <button onclick="kapat()">Kapat</button>
     </div>
 
     <script>
-        const months = [
+        const aylar = [
             "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
             "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
         ];
-        const days = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+        const gunler = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
 
+        const takvimGunleri = document.getElementById("takvimGunleri");
+        const suankiAyElement = document.getElementById("suankiAy");
+        const suankiYilElement = document.getElementById("suankiYil");
+        const yilSecici = document.getElementById("yilSecici");
+        const acilirPencere = document.getElementById("acilirPencere");
+        const pencereBaslik = document.getElementById("pencereBaslik");
 
-        const calendarGrid = document.getElementById("calendarGrid");
-        const currentMonthElement = document.getElementById("currentMonth");
-        const currentYearElement = document.getElementById("currentYear");
-        const yearSelector = document.getElementById("yearSelector");
-        const popup = document.getElementById("popup");
-        const popupTitle = document.getElementById("popupTitle");
+        let suankiYil = new Date().getFullYear();
+        let suankiAy = new Date().getMonth();
 
-        let currentYear = new Date().getFullYear();
-        let currentMonth = new Date().getMonth();
-
-        function updateCalendar() {
-            currentMonthElement.textContent = months[currentMonth];
-            currentYearElement.textContent = currentYear;
-            renderDays();
+        function takvimiGuncelle() {
+            suankiAyElement.textContent = aylar[suankiAy];
+            suankiYilElement.textContent = suankiYil;
+            gunleriGoster();
         }
 
-        function renderDays() {
-            calendarGrid.innerHTML = "";
-            const today = new Date();
-            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-            const lastDate = new Date(currentYear, currentMonth + 1, 0).getDate();
+        function gunleriGoster() {
+            takvimGunleri.innerHTML = "";
+            const bugun = new Date();
+            const ilkGun = new Date(suankiYil, suankiAy, 1).getDay();
+            const sonGun = new Date(suankiYil, suankiAy + 1, 0).getDate();
 
-            const offset = (firstDay === 0) ? 6 : firstDay - 1;
-            for (let i = 0; i < offset; i++) {
-                calendarGrid.appendChild(document.createElement("div"));
+            const bosluk = (ilkGun === 0) ? 6 : ilkGun - 1;
+            for (let i = 0; i < bosluk; i++) {
+                takvimGunleri.appendChild(document.createElement("div"));
             }
 
-            for (let i = 1; i <= lastDate; i++) {
-                const dayBox = document.createElement("div");
-                dayBox.classList.add("day-box");
-                dayBox.textContent = i;
+            for (let i = 1; i <= sonGun; i++) {
+                const gunKutusu = document.createElement("div");
+                gunKutusu.classList.add("gun-kutusu");
+                gunKutusu.textContent = i;
 
-                const currentDate = new Date(currentYear, currentMonth, i);
-                if (currentDate < today.setHours(0, 0, 0, 0)) {
-                    dayBox.classList.add("past");
+                const suankiTarih = new Date(suankiYil, suankiAy, i);
+                if (suankiTarih < bugun.setHours(0, 0, 0, 0)) {
+                    gunKutusu.classList.add("gecmis");
                 }
 
-                dayBox.onclick = () => {
-            const dayName = days[currentDate.getDay()];
-            openPopup(`${i} ${months[currentMonth]} ${currentYear} - ${dayName}`);
+                gunKutusu.onclick = () => {
+                    const gunAdi = gunler[suankiTarih.getDay()];
+                    acilirPencereyiAc(`${i} ${aylar[suankiAy]} ${suankiYil} - ${gunAdi}`);
                 };
 
-                calendarGrid.appendChild(dayBox);
+                takvimGunleri.appendChild(gunKutusu);
             }
         }
 
-        function openPopup(title) {
-            popupTitle.textContent = title;
-            popup.classList.add("active");
+        function acilirPencereyiAc(baslik) {
+            pencereBaslik.textContent = baslik;
+            acilirPencere.classList.add("aktif");
         }
 
-        function closePopup() {
-            popup.classList.remove("active");
+        function kapat() {
+            acilirPencere.classList.remove("aktif");
         }
 
-        currentYearElement.onclick = () => {
-            yearSelector.innerHTML = "";
-            yearSelector.style.display = "block";
-            for (let i = currentYear - 50; i <= currentYear + 50; i++) {
-                const yearOption = document.createElement("div");
-                yearOption.textContent = i;
-                yearOption.onclick = () => {
-                    currentYear = i;
-                    yearSelector.style.display = "none";
-                    updateCalendar();
+        suankiYilElement.onclick = () => {
+            yilSecici.innerHTML = "";
+            yilSecici.style.display = "block";
+
+            const konum = suankiYilElement.getBoundingClientRect();
+            yilSecici.style.top = `${konum.bottom + window.scrollY}px`;
+            yilSecici.style.left = `${konum.left}px`;
+
+            for (let i = suankiYil - 50; i <= suankiYil + 50; i++) {
+                const yilSecenek = document.createElement("div");
+                yilSecenek.textContent = i;
+                yilSecenek.onclick = () => {
+                    suankiYil = i;
+                    yilSecici.style.display = "none";
+                    takvimiGuncelle();
                 };
-                yearSelector.appendChild(yearOption);
+                yilSecici.appendChild(yilSecenek);
             }
         };
 
-        document.getElementById("prevMonth").onclick = () => {
-            currentMonth = (currentMonth - 1 + 12) % 12;
-            if (currentMonth === 11) currentYear--;
-            updateCalendar();
+        document.getElementById("oncekiAy").onclick = () => {
+            suankiAy = (suankiAy - 1 + 12) % 12;
+            if (suankiAy === 11) suankiYil--;
+            takvimiGuncelle();
         };
 
-        document.getElementById("nextMonth").onclick = () => {
-            currentMonth = (currentMonth + 1) % 12;
-            if (currentMonth === 0) currentYear++;
-            updateCalendar();
+        document.getElementById("sonrakiAy").onclick = () => {
+            suankiAy = (suankiAy + 1) % 12;
+            if (suankiAy === 0) suankiYil++;
+            takvimiGuncelle();
         };
 
         document.onclick = (e) => {
-            if (!e.target.closest("#currentYear")) {
-                yearSelector.style.display = "none";
+            if (!e.target.closest("#suankiYil")) {
+                yilSecici.style.display = "none";
             }
         };
 
-        updateCalendar();
+        takvimiGuncelle();
     </script>
 </body>
 </html>

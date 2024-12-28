@@ -1,0 +1,25 @@
+﻿<head>
+    <link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+    <div class="resim-galerisi">
+        <div class="resim-kapsayici">
+            <a href="@Url.Action("Subeler", "Subeler", new { sehir = "Merkez" })">
+            <img src="~/images/BERBER DEDE.png" alt="Resim 1">
+            <p>Merkez</p>
+        </div>
+        <div class="resim-kapsayici">
+            <a href="@Url.Action("Subeler", "Subeler", new { sehir = "Niksar" })">
+            <img src="~/images/MAKAS.png" alt="Resim 1">
+            <p>Niksar</p>
+        </div>
+    </div>
+</body>
+
+<script>
+    document.getElementById("subelerimizButton").addEventListener("click", function () {
+        var menu = document.getElementById("subelerimizMenu");
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+    });
+</script>

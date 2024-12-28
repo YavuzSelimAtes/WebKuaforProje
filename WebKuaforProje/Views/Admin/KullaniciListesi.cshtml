@@ -11,6 +11,7 @@
             <th>Telefon No</th>
             <th>Kullanıcı Adı</th>
             <th>Rol</th>
+            <th>İşlemler</th>
         </tr>
     </thead>
     <tbody>
@@ -34,12 +35,147 @@
                     {
                         <form asp-action="KullaniciKaldir" asp-controller="Admin" method="post" onsubmit="return confirm('Bu kullanıcıyı kaldırmak istediğinize emin misiniz?');">
                             <input type="hidden" name="id" value="@kullanici.Id" />
-                            <button type="submit" class="btn btn-danger">Kaldir</button>
+                            <button type="submit" class="btn btn-danger">Kaldır</button>
                         </form>
                     }
-
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<div style="text-align: right; margin-top: 20px;">
+    <button id="adminDegistirButton" class="btn btn-primary">Admin Değiştir</button>
+</div>
+
+<div id="sifreModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Admin Şifre Doğrulama</h2>
+        <form id="sifreDogrulamaForm">
+            <div class="form-group">
+                <label for="mevcutSifre">Mevcut Şifre:</label>
+                <input type="password" id="mevcutSifre" class="form-control" required>
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <button type="button" id="dogrulaButton" class="btn btn-success">Doğrula</button>
+                <button type="button" id="modalKapatSifreButton" class="btn btn-secondary">Kapat</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="adminModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Yeni Admin Bilgileri</h2>
+        <form id="adminDegistirForm">
+            <div class="form-group">
+                <label for="yeniKullaniciAdi">Yeni Kullanıcı Adı:</label>
+                <input type="text" id="yeniKullaniciAdi" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="yeniAd">Yeni Ad:</label>
+                <input type="text" id="yeniAd" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="yeniSoyad">Yeni Soyad:</label>
+                <input type="text" id="yeniSoyad" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="yeniTelefon">Yeni Telefon Numarası:</label>
+                <input type="tel" id="yeniTelefon" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="yeniSifre">Yeni Şifre:</label>
+                <input type="password" id="yeniSifre" class="form-control" required>
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <button type="button" id="kaydetButton" class="btn btn-success">Kaydet</button>
+                <button type="button" id="modalKapatButton" class="btn btn-secondary">Kapat</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+ <script>
+        document.getElementById("adminDegistirButton").addEventListener("click", function () {
+        document.getElementById("sifreModal").style.display = "flex";
+    });
+
+    document.getElementById("modalKapatSifreButton").addEventListener("click", function () {
+        document.getElementById("sifreModal").style.display = "none";
+    });
+
+    document.getElementById("modalKapatButton").addEventListener("click", function () {
+        document.getElementById("adminModal").style.display = "none";
+    });
+
+    document.getElementById("dogrulaButton").addEventListener("click", function () {
+        const mevcutSifre = document.getElementById("mevcutSifre").value;
+
+        if (mevcutSifre) {
+            fetch('/Admin/SifreKontrol', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ sifre: mevcutSifre })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("sifreModal").style.display = "none";
+                    document.getElementById("adminModal").style.display = "flex";
+                } else {
+                    alert(data.message || "Hatalı şifre. Lütfen tekrar deneyin.");
+                }
+            })
+            .catch(error => {
+                console.error("Hata:", error);
+                alert("HATA");
+            });
+        } else {
+            alert("Lütfen şifreyi girin.");
+        }
+    });
+
+        document.getElementById("kaydetButton").addEventListener("click", function () {
+        const yeniKullaniciAdi = document.getElementById("yeniKullaniciAdi").value;
+        const yeniAd = document.getElementById("yeniAd").value;
+        const yeniSoyad = document.getElementById("yeniSoyad").value;
+        const yeniTelefon = document.getElementById("yeniTelefon").value;
+        const yeniSifre = document.getElementById("yeniSifre").value;
+
+        if (yeniKullaniciAdi && yeniAd && yeniSoyad && yeniTelefon && yeniSifre) {
+            fetch('/Admin/adminGuncelle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    KullaniciAdi: yeniKullaniciAdi,
+                    Ad: yeniAd,
+                    Soyad: yeniSoyad,
+                    TelefonNo: yeniTelefon,
+                    Sifre: yeniSifre
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Admin bilgileri başarıyla güncellendi!");
+                    document.getElementById("adminModal").style.display = "none";
+                    location.reload();
+                } else {
+                    alert(data.message || "Bir hata oluştu.");
+                }
+            })
+            .catch(error => {
+                console.error("Hata:", error);
+                alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+            });
+        } else {
+            alert("Lütfen tüm alanları doldurun.");
+        }
+    });
+
+ </script>

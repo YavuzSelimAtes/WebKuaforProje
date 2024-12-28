@@ -24,8 +24,40 @@
         <input asp-for="Sifre" type="password" class="form-control" required />
     </div>
     <div class="form-group">
-        <label asp-for="Rol">Rol</label>
-        <input asp-for="Rol" class="form-control" required />
+        <label asp-for="Rol">Rol Seçimi</label>
+        <select class="form-control" id="Rol" name="Rol" required>
+            <option value="Müşteri">Müşteri</option>
+            <option value="Personel">Personel</option>
+        </select>
     </div>
+    <div id="PersonelBilgileri" style="display: none;">
+        <div class="form-group">
+            <label asp-for="Personel.Subesi">Şube</label>
+            <select id="Subesi" name="Personel.Subesi" class="form-control" required>
+                @foreach (var sube in ViewBag.Subeler)
+                {
+                    <option value="@sube.Sehir">@sube.Sehir</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Personel.UzmanlikAlani">Uzmanlık Alanı</label>
+            <input asp-for="Personel.UzmanlikAlani" class="form-control" required />
+        </div>
+    </div>
+
     <button type="submit" class="btn btn-primary">Ekle</button>
 </form>
+
+<script>
+        document.getElementById("Rol").addEventListener("change", function () {
+        var rol = this.value;
+        var PersonelBilgileri = document.getElementById("PersonelBilgileri");
+
+        if (rol === "Personel") {
+            PersonelBilgileri.style.display = "block";
+        } else {
+            PersonelBilgileri.style.display = "none";
+        }
+    });
+</script>

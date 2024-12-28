@@ -82,3 +82,241 @@ button {
     button:hover {
         background-color: darkred; /* Hover efekti için daha koyu mavi */
     }
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.takvim {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.takvim-baslik {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .takvim-baslik h1 {
+        font-size: 24px;
+        margin: 0 15px;
+        cursor: pointer;
+    }
+
+    .takvim-baslik button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+        .takvim-baslik button:hover {
+            background-color: #0056b3;
+        }
+
+.hafta-gunleri {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+    .hafta-gunleri div {
+        padding: 10px;
+    }
+
+.takvim-gunleri {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.gun-kutusu {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+    .gun-kutusu:hover {
+        background-color: #e0e0e0;
+    }
+
+.gecmis {
+    background-color: #d3d3d3;
+    color: #888;
+}
+
+.yil-secici {
+    display: none;
+    position: absolute;
+    width: 100px;
+    height: 150px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+    .yil-secici div {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+        .yil-secici div:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+.acilir-pencere {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+    .acilir-pencere.aktif {
+        display: block;
+    }
+
+#subelerimizButton {
+    position: relative;
+    border-radius:20px;
+    background-color: #ffffff00;
+}
+
+
+#subelerimizMenu {
+    position: absolute;
+    top: 100%;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    padding: 10px;
+    border-radius: 20px;
+    display: none;
+}
+
+    #subelerimizMenu button {
+        display: block;
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        border: none;
+        background-color: white;
+        cursor: pointer;
+    }
+
+
+        #subelerimizMenu button:hover {
+            background-color: #ccc;
+        }
+
+.btn-container {
+    position: fixed; 
+    top: 10px; 
+    right: 10px; 
+    display: flex; 
+    gap: 10px; 
+    z-index: 1000; 
+}
+
+.dropdown-form {
+    display: none;
+    position: absolute; 
+    top: 100%; /* Butonun hemen altýndan baþlar */
+    right: 0; /* Sað kenara hizalar */
+    width: 250px; /* Form geniþliði */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* Hover ile formu göster */
+.btn-wrapper:hover .dropdown-form {
+    display: block; /* Hover olunca formu göster */
+}
+
+.btn-wrapper {
+    position: relative; /* Her butonun kendi referans noktasý var */
+}
+
+.resim-galerisi {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.resim-kapsayici {
+    width: 500px;
+    height: 350px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+    text-align: center;
+    flex-shrink: 1;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+    .resim-kapsayici img {
+        width: 250px;
+        height: 250px;
+        border-radius: 25px;
+        transition: transform 0.3s ease;
+    }
+
+    .resim-kapsayici:hover img {
+        transform: scale(1.1);
+    }
+
+    .resim-kapsayici p {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+        display: none;
+    }
+
+    .resim-kapsayici:hover p {
+        display: block;
+        color: #000;
+    }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+

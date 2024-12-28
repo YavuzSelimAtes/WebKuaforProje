@@ -30,11 +30,12 @@ namespace WebKuaforProje.Controllers
             if (kullanici != null)
             {
                 if (kullanici.Rol == "admin")
-                {
                     return RedirectToAction("YeniKullanici", "Admin");
-                }
-                else
-                    return RedirectToAction("GirisEkrani", "AnaSayfa");
+                else if (kullanici.Rol == "Müşteri")
+                    return RedirectToAction("Randevu", "Musteri");
+                else if (kullanici.Rol == "Personel")
+                    return RedirectToAction("Takvimim", "Kuafor");
+                else return RedirectToAction("GirisEkrani", "AnaSayfa");
             }
             else
             {
@@ -60,6 +61,26 @@ namespace WebKuaforProje.Controllers
             veriTabani.SaveChanges();
 
             return RedirectToAction("GirisEkrani"); // Kaydolduktan sonra anasayfaya yönlendir
+        }
+
+        public IActionResult SubelerimizIstanbul()
+        {
+            return View();
+        }
+
+        public IActionResult SubelerimizAnkara()
+        {
+            return View();
+        }
+
+        public IActionResult SubelerimizSakarya()
+        {
+            return View();
+        }
+
+        public IActionResult SubelerimizTokat()
+        {
+            return View();
         }
     }
 }

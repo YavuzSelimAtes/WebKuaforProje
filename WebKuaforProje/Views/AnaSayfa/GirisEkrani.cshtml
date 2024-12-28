@@ -10,49 +10,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş Yap ve Kaydol</title>
-    <style>
-        /* Kapsayıcı */
-        .btn-container {
-            position: fixed; /* Sağ üst köşeye sabitler */
-            top: 10px; /* Üstten boşluk */
-            right: 10px; /* Sağdan boşluk */
-            display: flex; /* Butonları yan yana koyar */
-            gap: 10px; /* Butonlar arası boşluk */
-            z-index: 1000; /* Üstte görünmesini sağlar */
-        }
-
-        /* Dropdown Form */
-        .dropdown-form {
-            display: none; /* Başlangıçta gizli */
-            position: absolute; /* Butona göre konumlanır */
-            top: 100%; /* Butonun hemen altından başlar */
-            right: 0; /* Sağ kenara hizalar */
-            width: 250px; /* Form genişliği */
-            background-color: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            padding: 10px;
-        }
-
-        /* Hover ile formu göster */
-        .btn-wrapper:hover .dropdown-form {
-            display: block; /* Hover olunca formu göster */
-        }
-
-        .btn-wrapper {
-            position: relative; /* Her butonun kendi referans noktası var */
-        }
-    </style>
+    <link rel="stylesheet" href="site.css">
 </head>
 <body>
-    <!-- Sağ Üst Köşedeki Butonlar -->
     <div class="btn-container">
-        <!-- Giriş Yap -->
         <div class="btn-wrapper">
-            <button type="button" class="btn btn-primary">
-                Giriş Yap
-            </button>
+            <button type="button" class="btn btn-primary">Giriş Yap</button>
             <div class="dropdown-form">
                 <h5 class="text-center">Kullanıcı Girişi</h5>
                 <form action="#" method="post">
@@ -68,12 +31,8 @@
                 </form>
             </div>
         </div>
-
-        <!-- Kaydol -->
         <div class="btn-wrapper">
-            <button type="button" class="btn btn-secondary">
-                Kaydol
-            </button>
+            <button type="button" class="btn btn-secondary">Kaydol</button>
             <div class="dropdown-form">
                 <h5 class="text-center">Kayıt Ol</h5>
                 <form asp-action="Kaydol" asp-controller="AnaSayfa" method="post">
@@ -105,3 +64,11 @@
     </div>
 </body>
 </html>
+
+<script>
+    document.getElementById("subelerimizButton").addEventListener("click", function () {
+        var menu = document.getElementById("subelerimizMenu");
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+    });
+</script>
+
